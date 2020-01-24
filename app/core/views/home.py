@@ -1,11 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.http import HttpResponse
-from app.core.ioc_container import Container
-from app.core.models import PlatformType
 
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin, View):
     def get(self, request):
-        Container.get_platforms()
-        trello = Container.get_platform(PlatformType.TRELLO)
-        return HttpResponse(trello.get_oaut_url())
+        return HttpResponse(str(request.user))

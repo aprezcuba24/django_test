@@ -1,0 +1,11 @@
+<table>
+  {% for item in platforms %}
+  <tr>
+    <td>
+      <a href="{{ item.get_oaut_url }}">
+        {{ item.get_name }}
+      </a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>

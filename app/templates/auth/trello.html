@@ -1,0 +1,6 @@
+<script>
+  var url = document.URL
+  var hash = url.substring(url.indexOf("=") + 1)
+  var url_clear = url.substring(0, url.indexOf("#"))
+  window.location.href = "{% url 'users:oauth' 'trello' %}" + '?token=' + hash
+</script>

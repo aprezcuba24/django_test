@@ -7,7 +7,7 @@ from django.views import defaults as default_views
 import app.core.views as core_view
 
 urlpatterns = [
-    path('', core_view.HomeView.as_view()),
+    path('', core_view.HomeView.as_view(), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
@@ -15,7 +15,6 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("app.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

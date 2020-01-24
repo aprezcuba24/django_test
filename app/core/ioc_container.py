@@ -1,6 +1,6 @@
 from dependency_injector import providers, containers
-from .platform import TrelloPlatform
 from app.core.models import PlatformType
+from .platform import TrelloPlatform
 
 
 class Container(containers.DeclarativeContainer):
@@ -8,7 +8,9 @@ class Container(containers.DeclarativeContainer):
 
     @classmethod
     def get_platform(cls, platform_type):
-        factory_name = f'platform_{platform_type.label.lower()}'
+        if not isinstance(platform_type, str):
+            platform_type = platform_type.label.lower()
+        factory_name = f'platform_{platform_type}'
         factory = getattr(cls, factory_name)
         return factory()
 

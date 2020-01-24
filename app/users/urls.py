@@ -1,14 +1,9 @@
 from django.urls import path
-
-from app.users.views import (
-    user_redirect_view,
-    user_update_view,
-    user_detail_view,
-)
+from . import views as user_views
 
 app_name = "users"
 urlpatterns = [
-    path("~redirect/", view=user_redirect_view, name="redirect"),
-    path("~update/", view=user_update_view, name="update"),
-    path("<str:username>/", view=user_detail_view, name="detail"),
+    path("login/", view=user_views.LoginView.as_view(), name="login"),
+    path("trello/oauth/", view=user_views.TrelloOAuthView.as_view(), name="trello_oauth"),
+    path("oauth/<str:platform_name>", view=user_views.OAuthView.as_view(), name="oauth"),
 ]

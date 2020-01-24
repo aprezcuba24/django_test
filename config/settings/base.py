@@ -66,7 +66,6 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "crispy_forms",
     "allauth",
-    "allauth.account",
     "allauth.socialaccount",
     "rest_framework",
 ]
@@ -89,14 +88,13 @@ MIGRATION_MODULES = {"sites": "app.contrib.sites.migrations"}
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "account_login"
+LOGIN_URL = "users:login"
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -264,3 +262,7 @@ SOCIALACCOUNT_ADAPTER = "app.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# Trello integration
+TRELLO_KEY = env.bool("TRELLO_KEY", 'a19f9131e11fcb963ea4e7cacbf0828e')
+TRELLO_URL_REDIRECT = env.bool("TRELLO_URL_REDIRECT", 'http://localhost:8001/users/trello/oauth/')
