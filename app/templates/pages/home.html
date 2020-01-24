@@ -1,1 +1,17 @@
-{% extends "base.html" %}
+{% if boards|length %}
+  <table>
+    {% for board in boards %}
+    <tr>
+      <td>
+        {{ board.name }}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  There ins't boards loaded.
+{% endif %}
+
+<a href="{% url 'load_all' %}">
+  Load All
+</a>

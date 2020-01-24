@@ -4,6 +4,6 @@ from .group import Group
 
 
 class Card(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.TextField()
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     data = JSONField(default=dict, blank=True)

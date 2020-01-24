@@ -8,6 +8,7 @@ import app.core.views as core_view
 
 urlpatterns = [
     path('', core_view.HomeView.as_view(), name="home"),
+    path('load', core_view.LoadView.as_view(), name="load_all"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
