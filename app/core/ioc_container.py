@@ -1,10 +1,21 @@
+import requests
 from dependency_injector import providers, containers
-from app.core.models import PlatformType
+from django.contrib.auth import login as django_login
+from django.contrib.auth import get_user_model
+from django.conf import settings
+from app.core.models import PlatformType, Board
 from .platform import TrelloPlatform
 
 
 class Container(containers.DeclarativeContainer):
-    platform_trello = providers.Singleton(TrelloPlatform)
+    platform_trello = providers.Singleton(
+        TrelloPlatform,
+        django_login=django_login,
+        requests=requests,
+        Board=Board,
+        settings=settings,
+        User=get_user_model()
+    )
 
     @classmethod
     def get_platform(cls, platform_type):

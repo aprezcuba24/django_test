@@ -1,9 +1,15 @@
-from django.contrib.auth import login as django_login
-from app.core.models import Board, Group, Card
-
-
 class BasePlatform:
+    def __init__(self, django_login, Board, User, requests, settings):
+        self.django_login = django_login
+        self.Board = Board
+        self.User = User
+        self.requests = requests
+        self.settings = settings
+
     def get_name(self):
+        return self.get_type().label
+
+    def get_type(self):
         raise NotImplementedError
 
     def get_oaut_url(self):
@@ -11,14 +17,14 @@ class BasePlatform:
 
     def login(self, request):
         user = self._find_or_create(request)
-        django_login(request, user)
+        self.django_login(request, user)
         return user
 
     def _find_or_create(self, request):
         raise NotImplementedError
 
     def load_all(self, user):
-        Board.objects.get_by_user(user).delete()
+        self.Board.objects.get_by_user(user).delete()
         boards = self._load_boards(user)
         groups = self._load_lists(user, boards)
         self._load_cards(user, groups)
