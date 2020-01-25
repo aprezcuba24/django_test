@@ -1,10 +1,16 @@
 class BasePlatform:
+    API_URL = ''
     def __init__(self, django_login, Board, User, requests, settings):
         self.django_login = django_login
         self.Board = Board
         self.User = User
         self.requests = requests
         self.settings = settings
+
+    def _get_api_url(self, uri, **kwargs):
+        params = [f'{item[0]}={item[1]}' for item in kwargs.items()]
+        params = '&'.join(params)
+        return f'{self.API_URL}{uri}?{params}'
 
     def get_name(self):
         return self.get_type().label
