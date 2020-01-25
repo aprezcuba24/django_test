@@ -24,6 +24,8 @@ class TrelloPlatformTest(TestCase):
             django_login=lambda x, y: None,
             Board=Board,
             User=User,
+            Group=Group,
+            Card=Card,
             requests=requests,
             settings=settings,
         )

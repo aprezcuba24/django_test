@@ -3,7 +3,7 @@ from dependency_injector import providers, containers
 from django.contrib.auth import login as django_login
 from django.contrib.auth import get_user_model
 from django.conf import settings
-from app.core.models import PlatformType, Board
+from app.core.models import PlatformType, Board, Group, Card
 from .platform import TrelloPlatform
 
 
@@ -13,8 +13,10 @@ class Container(containers.DeclarativeContainer):
         django_login=django_login,
         requests=requests,
         Board=Board,
+        Group=Group,
+        Card=Card,
         settings=settings,
-        User=get_user_model()
+        User=get_user_model(),
     )
 
     @classmethod
