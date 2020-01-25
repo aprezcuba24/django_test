@@ -5,8 +5,6 @@ from app.users.models import User
 
 
 class LoadTest(TestCase):
-    def setUp(self):
-        pass
 
     def test_redirect_to_login(self):
         response = self.client.get('/load')
