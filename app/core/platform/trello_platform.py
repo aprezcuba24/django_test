@@ -20,27 +20,26 @@ class TrelloPlatform(BasePlatform):
             self.connection_params['token'] = user.platform_integration['token']
 
     def _find_or_create(self, request):
+        '''
+        The token is diferent in each login and expires in one day.
+        '''
         token = request.GET.get('token')
         if not token:
             raise ValueError('The token is not exists.')
-        # The token is diferent in each login
         self._set_connection_params(token)
         response = self.requests.get(self._get_api_url('/members/me/'))
         data = json.loads(response.content)
         try:
-            user = self.User.objects.get(
-                username=data['username']
+            return self.User.objects.get(
+                username=data['username'],
             )
         except self.User.DoesNotExist:
-            user = self.User(
+            return self._create_user(
                 username=data['username'],
-                platform=PlatformType.TRELLO,
+                platform_integration=dict(
+                    token=token,
+                )
             )
-        user.platform_integration = dict(
-            token=token,
-        )
-        user.save()
-        return user
 
     def _get_boards_from_platform(self):
         return self.requests.get(

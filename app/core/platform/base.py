@@ -37,6 +37,14 @@ class BasePlatform:
     def _find_or_create(self, request):
         raise NotImplementedError
 
+    def _create_user(self, **kwargs):
+        user = self.User(
+            **kwargs,
+            platform=self.get_type(),
+        )
+        user.save()
+        return user
+
     def load_all(self, user):
         self._set_connection_params(user)
         self.Board.objects.get_by_user(user).delete()
