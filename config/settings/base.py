@@ -264,5 +264,5 @@ SOCIALACCOUNT_ADAPTER = "app.users.adapters.SocialAccountAdapter"
 # ------------------------------------------------------------------------------
 
 # Trello integration
-TRELLO_KEY = env.bool("TRELLO_KEY", 'a19f9131e11fcb963ea4e7cacbf0828e')
+TRELLO_KEY = env.bool("TRELLO_KEY", None)
 TRELLO_URL_REDIRECT = env.bool("TRELLO_URL_REDIRECT", 'http://localhost:8001/users/trello/oauth/')
