@@ -1,11 +1,9 @@
 import json
 from unittest.mock import MagicMock
-import requests
 from django.test import TestCase
-from django.conf import settings
-from app.core.platform import TrelloPlatform
 from app.core.models import PlatformType, Board, Group, Card
 from app.users.models import User
+from app.core.ioc_container import Container
 
 
 class RequestMock:
@@ -20,19 +18,13 @@ def create_response_mock(data):
 
 class TrelloPlatformTest(TestCase):
     def setUp(self):
-        self.platform = TrelloPlatform(
-            django_login=lambda x, y: None,
-            Board=Board,
-            User=User,
-            Group=Group,
-            Card=Card,
-            requests=requests,
-            settings=settings,
-        )
+        Container.login.override(lambda x, y: None)
+        self.requests = Container.requests()
+        self.platform = Container.get_platform(PlatformType.TRELLO)
 
     def test_login(self):
         assert User.objects.all().count() == 0
-        requests.get = MagicMock(return_value=create_response_mock(dict(
+        self.requests.get = MagicMock(return_value=create_response_mock(dict(
             username='username1',
         )))
 
@@ -51,7 +43,7 @@ class TrelloPlatformTest(TestCase):
         assert user.id == other.id
 
         # Now the response mock will return another username, a new user will be created.
-        requests.get = MagicMock(return_value=create_response_mock(dict(
+        self.requests.get = MagicMock(return_value=create_response_mock(dict(
             username='username2',
         )))
         user = self.platform.login(request)
@@ -66,8 +58,8 @@ class TrelloPlatformTest(TestCase):
             ),
         )
         assert Board.objects.all().count() == 0
-        requests.get = MagicMock()
-        requests.get.side_effect = [
+        self.requests.get = MagicMock()
+        self.requests.get.side_effect = [
             create_response_mock([ # It returns the boards
                 dict(
                     name='board1',
